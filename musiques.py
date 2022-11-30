@@ -1,9 +1,9 @@
 import machine
 from machine import Pin, PWM
 import time
-from time import sleep
+import random
 
-buzzer = Pin(27, Pin.OUT)
+pin = Pin(27, Pin.OUT)
 
 # These are the notes with equivalent frequency
 B0  = 31
@@ -95,10 +95,11 @@ C8  = 4186
 CS8 = 4435
 D8  = 4699
 DS8 = 4978
+Z = 100000
 
 # Function play is use to play sound from a list of notes
-def play(pin, melodies, delays, duty):
-	# Create the pwm object
+def play(melodies, delays, duty):
+    # Create the pwm object
     pwm = PWM(pin)
     pwm.duty_u16(32768)
     pwm.init(freq=5000, duty_ns=5000)
@@ -115,55 +116,42 @@ def play(pin, melodies, delays, duty):
 
 # This is the list of notes for mario theme
 # 0 denotes rest notes
-mario = [
-     E7, E7,  0, E7,  0, C7, E7,  0,
-     G7,  0,  0,  0, G6,  0,  0,  0,
-     C7,  0,  0, G6,  0,  0, E6,  0,
-      0, A6,  0, B6,  0,AS6, A6,  0,
-     G6, E7,  0, G7, A7,  0, F7, G7,
-      0, E7,  0, C7, D7, B6,  0,  0,
-     C7,  0,  0, G6,  0,  0, E6,  0,
-      0, A6,  0, B6,  0,AS6, A6,  0,
-     G6, E7,  0, G7, A7,  0, F7, G7,
-      0, E7,  0, C7, D7, B6,  0,  0,
-]
+liste_music = {
+    "mario" : [
+        [E7, E7,  Z, E7,  Z, C7, E7,  Z,
+        G7,  Z,  Z,  Z, G6,  Z,  Z,  Z,
+        C7,  Z,  Z, G6,  Z,  Z, E6,  Z,
+        Z, A6,  Z, B6,  Z,AS6, A6,  Z,
+        G6, E7,  Z, G7, A7,  Z, F7, G7,
+        Z, E7,  Z, C7, D7, B6,  Z,  Z,
+        C7,  Z,  Z, G6,  Z,  Z, E6,  Z,
+        Z, A6,  Z, B6,  Z,AS6, A6,  Z,
+        G6, E7,  Z, G7, A7,  Z, F7, G7,
+        Z, E7,  Z, C7, D7, B6,  Z,  Z,
+        ], 0.15, 100],
 
 # This is the list of notes for jingle bells
-jingle = [
-    E7, E7, E7, 0,
-    E7, E7, E7, 0,
-    E7, G7, C7, D7, E7, 0,
-    F7, F7, F7, F7, F7, E7, E7, E7, E7, D7, D7, E7, D7, 0, G7, 0,
-    E7, E7, E7, 0,
-    E7, E7, E7, 0,
-    E7, G7, C7, D7, E7, 0,
-    F7, F7, F7, F7, F7, E7, E7, E7, G7, G7, F7, D7, C7, 0 
-]
+    "jingle" : [
+        [E7, E7, E7, Z,
+        E7, E7, E7, Z,
+        E7, G7, C7, D7, E7, Z,
+        F7, F7, F7, F7, F7, E7, E7, E7, E7, D7, D7, E7, D7, Z, G7, Z,
+        E7, E7, E7, Z,
+        E7, E7, E7, Z,
+        E7, G7, C7, D7, E7, Z,
+        F7, F7, F7, F7, F7, E7, E7, E7, G7, G7, F7, D7, C7, Z 
+        ], 0.25 , 512],
 
 # This is the list of notes for Twinkle, Twinkle Little Star
-twinkle = [
-    C6, C6, G6, G6, A6, A6, G6, 0,
-    F6, F6, E6, E6, D6, D6, C6, 0,
-    G6, G6, F6, F6, E6, E6, D6, 0,
-    G6, G6, F6, F6, E6, E6, D6, 0,
-    C6, C6, G6, G6, A6, A6, G6, 0,
-    F6, F6, E6, E6, D6, D6, C6, 0,
-]
+    "twinkle" : [
+        [C6, C6, G6, G6, A6, A6, G6, Z,
+        F6, F6, E6, E6, D6, D6, C6, Z,
+        G6, G6, F6, F6, E6, E6, D6, Z,
+        G6, G6, F6, F6, E6, E6, D6, Z,
+        C6, C6, G6, G6, A6, A6, G6, Z,
+        F6, F6, E6, E6, D6, D6, C6, Z,
+    ],0.6, 50]
+}
 
-# Musique test
-test = [A1, B1, C1, D1, 0,
-    C1, B1, C1, B1, 0,
-    D1, B1, B1, D1, 0,
-    ]
 
-# Function to easily play the mario theme
-def play_musique():
-	# Play the mario theme to GPIO 23
-    # with 150ms note interval
-    # with a low volume
-    # print("Musique en cours : Mario")
-    # play(buzzer, mario, 0.15, 100)    
-    print("Musique en cours : Jingle Bells")
-    play(buzzer, jingle, 0.25, 512)
-    # print("Musique en cours : Twinkle Little Star")
-    # play(buzzer, twinkle, 0.6, 50)
+

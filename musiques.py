@@ -97,25 +97,19 @@ D8  = 4699
 DS8 = 4978
 Z = 100000
 
-# Function play is use to play sound from a list of notes
 def play(melodies, delays, duty):
-    # Create the pwm object
     pwm = PWM(pin)
     pwm.duty_u16(32768)
     pwm.init(freq=5000, duty_ns=5000)
 
-    # Loop through the whole list
     for note in melodies:
         pwm.freq(note)
         pwm.duty(duty)
         time.sleep(delays)
-    # Disable the pulse, setting the duty to 0
     pwm.duty(0)
-    # Disconnect the pwm driver
     pwm.deinit()
 
 # This is the list of notes for mario theme
-# 0 denotes rest notes
 liste_music = {
     "mario" : [
         [E7, E7,  Z, E7,  Z, C7, E7,  Z,
@@ -128,9 +122,9 @@ liste_music = {
         Z, A6,  Z, B6,  Z,AS6, A6,  Z,
         G6, E7,  Z, G7, A7,  Z, F7, G7,
         Z, E7,  Z, C7, D7, B6,  Z,  Z,
-        ], 0.15, 100],
+        ], 0.15, 250],
 
-# This is the list of notes for jingle bells
+# This is the list of notes for jingle, Jingle bells
     "jingle" : [
         [E7, E7, E7, Z,
         E7, E7, E7, Z,
@@ -150,8 +144,82 @@ liste_music = {
         G6, G6, F6, F6, E6, E6, D6, Z,
         C6, C6, G6, G6, A6, A6, G6, Z,
         F6, F6, E6, E6, D6, D6, C6, Z,
-    ],0.6, 50]
+    ],0.6, 50],
+
+# This is the list of notes for Jolly, Jolly Old St. Nicholas
+    "jolly" : [
+        [E6, Z, E6, Z, E6, Z, E6, Z, D6, Z, D6, Z, D6, D6, D6, Z,
+        C6, Z, C6, Z, C6, Z, C6, Z, E6, E6, E6, Z, Z, Z, Z, Z,
+        A5, Z, A5, Z, A5, Z, A5, Z, C5, Z, G5, Z, C5, C5, C5, Z,
+        D6, C6, D6, E6, D6, D6, Z, Z, Z,
+        E6, Z, E6, Z, E6, Z, E6, Z, D6, Z, D6, Z, D6, D6, D6, Z,
+        C6, Z, C6, Z, C6, Z, C6, Z, E6, E6, E6, Z, Z, Z, Z, Z,
+        A5, Z, A5, Z, A5, Z, A5, Z, C5, Z, G5, Z, C5, C5, C5, Z,
+        D6, C6, D6, E6, C6, C6, C6, Z,
+    ],0.12, 250],
+
+# This is the list of notes for Wish, We wish you a merry Christmas
+    "wish" : [
+        [G5, Z, C6, Z, C6, D6, C6, B5, A5, Z, A5, Z, A5, Z,
+        D6, Z, D6, E6, D6, C6, B5, Z, G5, Z, G5, Z,
+        E6, Z, E6, F6, E6, D6, C6, Z, A5, Z, G5, Z,
+        A5, A5, D6, D6, B5, B5, C6, C6, C6, Z,
+        G5, Z, C6, Z, C6, D6, C6, B5, A5, Z, A5, Z, A5, Z,
+        D6, Z, D6, E6, D6, C6, B5, Z, G5, Z, G5, Z,
+        E6, Z, E6, F6, E6, D6, C6, Z, A5, Z, G5, Z, G5, Z,
+        A5, A5, D6, D6, B5, B5, C6, C6, C6,
+    ],0.2, 120],
+
+# This is the list of notes for Vive, Vive le vent
+    "vive" : [
+        [E6, Z, E6, Z, E6, E6, E6, Z, E6, Z, E6, Z, E6, E6, E6, Z,
+        E6, Z, G6, Z, C6, Z, D6, Z, E6, E6, E6, E6, Z, Z, Z, Z,
+        F6, Z, F6, Z, F6, F6, F6, G6, E6, Z, E6, Z, E6, E6, E6,
+        C6, D6, Z, D6, Z, D6, Z, E6, Z, D6, D6, Z, Z, G6, G6, G6, Z,
+        E6, Z, E6, Z, E6, E6, E6, Z, E6, Z, E6, Z, E6, E6, E6, Z,
+        E6, Z, G6, Z, C6, Z, D6, Z, E6, E6, E6, E6, Z, Z, Z, Z,
+        F6, Z, F6, Z, F6, F6, F6, G6, E6, Z,  E6, Z, E6, E6, Z,
+        E6, G6, Z, G6, Z, F6, Z, D6, Z, C6, C6, C6, Z,
+    ],0.14, 250],
+
+# This is the list of notes for Papa, Petit papa Noël
+     "papa" : [
+        [G5, G5, C6, Z, C6, Z, C6, Z, D6, Z, C6, C6, C6, C6, C6, Z,
+        C6, D6, E6, Z, E6, Z, E6, Z, F6, Z, E6, E6, E6, E6, E6, Z,
+        D6, D6, C6, C6, C6, Z, C6, C5, C6, B5, A5, G5, G5, G5, G5, Z,
+        G5, C5, C6, C6, C6, C6, Z, C6, C5, B5, C5, D6, D6, D6, Z,
+        G5, G5, C6, Z, C6, Z, C6, Z, D6, Z, C6, C6, C6, C6, C6, Z,
+        C6, D6, E6, Z, E6, Z, E6, Z, F6, Z, E6, E6, E6, E6, E6, Z,
+        D6, D6, C6, C6, C6, Z, C6, C5, C6, B5, A5, G5, G5, G5, G5, Z,
+        G5, C5, C6, C6, C6, C6, Z, C6, C5, D6, D5, C6, C6, C6, C6, Z,
+    ],0.20, 250],
+
+# This is the list of notes for Sapin, Mon beau sapin
+    "sapin" : [
+        [G5, G5, C6, C5, C6, C6, C6, Z,
+        D6, D6, E6, E5, E6, E6, E6, Z,
+        E6, D6, E6, F5, F5, B5, B5, D6, D6, C6, C6, C6, Z,
+        G5, G6, E6, A6, A6, A6, Z, G5, G6, F5, F5, F5, Z,
+        G5, G6, D6, G6, G6, G6, Z, F5, F6, E6, E6, E6, Z,
+        G5, G5, C6, C5, C6, C6, C6, Z,
+        D6, D6, E6, E5, E6, E6, E6, Z,
+        E6, D6, E6, F5, F5, B5, B5, D6, D6, D6, D6, C6, C6, C6, C6, C6, Z,
+    ],0.30, 250],
+    
+# This is the list of notes for Douce, Douce nuit
+    "douce" : [
+        [G6, G6, G6, A6, G6, G6, E6, E6, E6, E6, E6, Z,
+         G6, G6, G6, A6, G6, G6, E6, E6, E6, E6, E6, Z,
+         D6, D6, D6, Z, D6, D6, B5, B5, B5, B5, Z,
+         C6, C6, C6, Z, C6, C6, G5, G5, G5, G5, Z,
+         A5, A5, A5, Z, A5, A5, C6, C6, C6, B5, A5, A5, G5, G5, G5, A5, G5, G5, E5, E5, E5, E5, Z, Z,
+         A5, A5, A5, Z, A5, A5, C6, C6, C6, B5, A5, A5, G5, G5, G5, A5, G5, G5, E5, E5, E5, E5, Z, Z,
+         D6, D6, D6, Z, D6, D6, F6, F6, F6, D6, B5, B5, C6, C6, C6, C6, C6, E6, E6, E6, E6, Z, Z,
+         C6, C6, C6, G5, E5, E5, G5, G5, G5, F5, D5, D5, C5, C5, C5, C5, C5, C5, C5, C5, Z,
+    ],0.28, 250],
+
 }
+
 
 
 
